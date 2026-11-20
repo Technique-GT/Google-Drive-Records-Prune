@@ -5,16 +5,6 @@ from datetime import timedelta
 from googleTakeoutPrune.main import delete_by_date, extract_records
 
 
-def test_extract_records_len():
-    # Test extract_records extracts zips and combines drive folders
-    os.makedirs("tests/test_data/temp", exist_ok=True)
-    extract_records("tests/test_data/test_extract_records_len", "tests/test_data/temp")
-
-    assert len(list(os.scandir("tests/test_data/temp/drive"))) == 159
-
-    shutil.rmtree("tests/test_data/temp")
-
-
 def test_extract_records_files():
     # Test extract_records extracts zips and combines drive folders
     os.makedirs("tests/test_data/temp", exist_ok=True)

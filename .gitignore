@@ -230,3 +230,6 @@ records_out/*
 
 # Mac Files
 .DS_Store
+
+# temp
+*tmp*
