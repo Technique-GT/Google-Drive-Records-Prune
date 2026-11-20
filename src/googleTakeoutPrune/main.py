@@ -142,9 +142,8 @@ def extract_records(records_path: str | Path, output_path: str | Path) -> None:
     archives = sorted(
         archive
         for archive in records.rglob("*.zip")
-        if "drive" not in {
-            part.lower() for part in archive.relative_to(records).parts[:-1]
-        }
+        if "drive"
+        not in {part.lower() for part in archive.relative_to(records).parts[:-1]}
     )
     for archive in archives:
         _copy_drive_archive(archive, drive)
@@ -212,6 +211,12 @@ def main() -> None:
         "records_out/unpruned",
         "records_out/pruned",
         timedelta(days=365 * 2),
+    )
+
+    shutil.make_archive(
+        "records_out/pruned",
+        "records_out/pruned.zip",
+        root_dir="records_out/pruned",
     )
 
 
