@@ -205,6 +205,10 @@ def delete_by_date(
 
 
 def main() -> None:
+    shutil.rmtree("records_out", ignore_errors=True)
+    Path("records_out/unpruned").mkdir(parents=True, exist_ok=True)
+    Path("records_out/pruned").mkdir(parents=True, exist_ok=True)
+
     extract_records("records", "records_out/unpruned")
 
     delete_by_date(
@@ -215,7 +219,7 @@ def main() -> None:
 
     shutil.make_archive(
         "records_out/pruned",
-        "records_out/pruned.zip",
+        "zip",
         root_dir="records_out/pruned",
     )
 

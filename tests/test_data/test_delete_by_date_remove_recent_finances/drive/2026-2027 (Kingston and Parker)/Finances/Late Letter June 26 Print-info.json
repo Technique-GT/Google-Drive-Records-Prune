@@ -1,0 +1,40 @@
+{
+  "starred": false,
+  "editors_can_edit_access": true,
+  "last_modified_by_any_user": "2026-08-06T12:47:28.583Z",
+  "last_modified_by_me": "2026-08-06T12:47:28.583Z",
+  "content_last_modified": "2026-08-06T12:47:28.583Z",
+  "created": "2026-08-06T12:40:26.804Z",
+  "permissions": [
+    {
+      "id": "00501854887101017025",
+      "name": "Kingston Barber (Editor-in-Chief)",
+      "type": "user",
+      "role": "writer",
+      "value": "editor@nique.net",
+      "kind": "drive#permission",
+      "photo_link": "https://lh3.googleusercontent.com/a/ACg8ocLSizalA8SCOwERyJBJ9vZLmANSuCl2u-kvutO3B6NDRdrLhzM=s64",
+      "email_address": "editor@nique.net",
+      "domain": "nique.net",
+      "deleted": false,
+      "pending_owner": false
+    },
+    {
+      "id": "11836980448829251296",
+      "name": "Parker Avery (Managing Editor)",
+      "type": "user",
+      "role": "owner",
+      "value": "managing.editor@nique.net",
+      "kind": "drive#permission",
+      "photo_link": "https://lh3.googleusercontent.com/a/ACg8ocK96P7cnX2263IYEv1QaO5lu8yxpl5sYtDcEnkRY9lJHAEiR7TG=s64",
+      "email_address": "managing.editor@nique.net",
+      "domain": "nique.net",
+      "deleted": false,
+      "pending_owner": false
+    }
+  ],
+  "title": "Late Letter June 26 Print",
+  "drive_id": "1xFDa0OEDYio9fMQd5LxhJjGVsfqKHn4nYlz-fBAiIbk",
+  "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "download_url": "https://docs.google.com/document/d/1xFDa0OEDYio9fMQd5LxhJjGVsfqKHn4nYlz-fBAiIbk/edit?usp=drive_web"
+}

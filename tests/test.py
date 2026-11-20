@@ -38,13 +38,12 @@ def test_extract_records_files():
     shutil.rmtree("tests/test_data/temp")
 
 
-def test_delete_by_date():
+def test_delete_by_date_large():
     # Test delete_by_date deletes appropriate files based on created date
     os.makedirs("tests/test_data/temp", exist_ok=True)
-    extract_records("tests/test_data/test_delete_by_date", "tests/test_data/temp")
 
     delete_by_date(
-        "tests/test_data/test_delete_by_date",
+        "tests/test_data/test_delete_by_date_large",
         "tests/test_data/temp",
         timedelta(days=365 * 1.5),
     )
@@ -57,5 +56,26 @@ def test_delete_by_date():
         "2014 tower cover.jpg",
         "2014 tower cover.jpg-info.json",
     }
+
+    shutil.rmtree("tests/test_data/temp")
+
+
+def test_delete_by_date_remove_recent_finances():
+    # Test delete_by_date deletes appropriate files based on created date
+    os.makedirs("tests/test_data/temp", exist_ok=True)
+
+    delete_by_date(
+        "tests/test_data/test_delete_by_date_remove_recent_finances",
+        "tests/test_data/temp",
+        timedelta(days=365 * 1.5),
+    )
+
+    drive_files = {
+        entry.name
+        for entry in os.scandir(
+            "tests/test_data/temp/drive/2026-2027 (Kingston and Parker)/Finances"
+        )
+    }
+    assert drive_files == {}
 
     shutil.rmtree("tests/test_data/temp")

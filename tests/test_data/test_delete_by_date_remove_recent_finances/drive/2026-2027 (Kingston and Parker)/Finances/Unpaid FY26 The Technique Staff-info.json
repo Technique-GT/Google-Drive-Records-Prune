@@ -1,0 +1,47 @@
+{
+  "starred": false,
+  "editors_can_edit_access": true,
+  "last_modified_by_any_user": "2026-10-22T19:44:49.128Z",
+  "last_modified_by_me": "2026-10-22T19:44:49.128Z",
+  "content_last_modified": "2026-10-22T19:44:49.128Z",
+  "created": "2026-10-22T18:54:20.787Z",
+  "permissions": [
+    {
+      "id": "anyoneWithLink",
+      "type": "anyone",
+      "role": "reader",
+      "kind": "drive#permission",
+      "with_link": true
+    },
+    {
+      "id": "00501854887101017025",
+      "name": "Kingston Barber (Editor-in-Chief)",
+      "type": "user",
+      "role": "writer",
+      "value": "editor@nique.net",
+      "kind": "drive#permission",
+      "photo_link": "https://lh3.googleusercontent.com/a/ACg8ocLSizalA8SCOwERyJBJ9vZLmANSuCl2u-kvutO3B6NDRdrLhzM=s64",
+      "email_address": "editor@nique.net",
+      "domain": "nique.net",
+      "deleted": false,
+      "pending_owner": false
+    },
+    {
+      "id": "11836980448829251296",
+      "name": "Parker Avery (Managing Editor)",
+      "type": "user",
+      "role": "owner",
+      "value": "managing.editor@nique.net",
+      "kind": "drive#permission",
+      "photo_link": "https://lh3.googleusercontent.com/a/ACg8ocK96P7cnX2263IYEv1QaO5lu8yxpl5sYtDcEnkRY9lJHAEiR7TG=s64",
+      "email_address": "managing.editor@nique.net",
+      "domain": "nique.net",
+      "deleted": false,
+      "pending_owner": false
+    }
+  ],
+  "title": "Unpaid FY26 The Technique Staff",
+  "drive_id": "1Lk1ICvjp7nVwcxGrdaZcE1t3RILlBRFjRcfVEj3fof0",
+  "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "download_url": "https://docs.google.com/spreadsheets/d/1Lk1ICvjp7nVwcxGrdaZcE1t3RILlBRFjRcfVEj3fof0/edit?usp=drive_web"
+}
