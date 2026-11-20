@@ -247,17 +247,17 @@ def delete_by_date(
 
 
 def main() -> None:
-    # shutil.rmtree("records_out", ignore_errors=True)
-    # Path("records_out/unpruned").mkdir(parents=True, exist_ok=True)
-    # Path("records_out/pruned").mkdir(parents=True, exist_ok=True)
+    shutil.rmtree("records_out", ignore_errors=True)
+    Path("records_out/unpruned").mkdir(parents=True, exist_ok=True)
+    Path("records_out/pruned").mkdir(parents=True, exist_ok=True)
 
-    # extract_records("records", "records_out/unpruned")
+    extract_records("records", "records_out/unpruned")
 
-    # delete_by_date(
-    #     "records_out/unpruned",
-    #     "records_out/pruned",
-    #     timedelta(days=365 * 2),
-    # )
+    delete_by_date(
+        "records_out/unpruned",
+        "records_out/pruned",
+        timedelta(days=365 * 2),
+    )
 
     shutil.make_archive(
         "records_out/pruned",
