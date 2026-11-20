@@ -232,4 +232,4 @@ records_out/*
 .DS_Store
 
 # temp
-*tmp*
+*temp*

@@ -1,5 +1,6 @@
 import filecmp
 import json
+import re
 import shutil
 import zipfile
 from datetime import UTC, datetime, timedelta
@@ -65,6 +66,15 @@ def _merge_directory(source: Path, destination: Path) -> None:
         if destination_entry.exists():
             destination_entry = _unique_path(destination_entry)
         shutil.copy2(source_entry, destination_entry)
+
+
+def _remove_ds_store_files(directory: Path) -> None:
+    for path in directory.rglob("*"):
+        if path.is_file() and re.fullmatch(
+            r"(?:\.DS_Store(?: \(\d+\))?|\._(?: \(\d+\))?\.DS_Store)",
+            path.name,
+        ):
+            path.unlink()
 
 
 def _streams_match(source, destination) -> bool:
@@ -150,6 +160,7 @@ def extract_records(records_path: str | Path, output_path: str | Path) -> None:
 
     if not source_drives and not archives:
         raise FileNotFoundError(f"No Drive folder or ZIP archives found in {records}")
+    _remove_ds_store_files(drive)
 
 
 def delete_by_date(
@@ -174,7 +185,10 @@ def delete_by_date(
         shutil.copytree(source_drive, drive)
 
     cutoff = datetime.now(UTC) - max_age
-    for info_path in sorted(drive.rglob("*-info.json")):
+    info_paths = sorted(
+        set(drive.rglob("*-info.json")) | set(drive.rglob("*-i.json"))
+    )
+    for info_path in info_paths:
         metadata = json.loads(info_path.read_text(encoding="utf-8"))
         created = metadata.get("created")
         if not isinstance(created, str):
@@ -188,19 +202,58 @@ def delete_by_date(
 
         title = metadata.get("title")
         if not isinstance(title, str) or Path(title).name != title:
-            title = info_path.name.removesuffix("-info.json")
+            suffix = (
+                "-info.json"
+                if info_path.name.endswith("-info.json")
+                else "-i.json"
+            )
+            title = info_path.name.removesuffix(suffix)
 
-        original_path = info_path.with_name(title)
-        originals = [original_path] if original_path.is_file() else []
-        originals.extend(
+        originals = [
             candidate
-            for candidate in info_path.parent.glob(f"{title}.*")
-            if candidate.is_file() and candidate != info_path
-        )
+            for candidate in info_path.parent.iterdir()
+            if candidate.is_file()
+            and candidate != info_path
+            and (
+                candidate.name == title
+                or candidate.name.startswith(f"{title}.")
+            )
+        ]
         for original in originals:
             original.unlink()
 
-        info_path.with_name(f"{title}-comments.html").unlink(missing_ok=True)
+        original_names = {title, *(original.name for original in originals)}
+        comments = [
+            candidate
+            for candidate in info_path.parent.iterdir()
+            if candidate.is_file()
+            and candidate.name.endswith("-comments.html")
+            and candidate.name.removesuffix("-comments.html") in original_names
+        ]
+        if not comments:
+            truncated_comments = [
+                candidate
+                for candidate in info_path.parent.iterdir()
+                if candidate.is_file()
+                and candidate.name.endswith("-comments.html")
+                and any(
+                    Path(original_name).stem.startswith(
+                        Path(
+                            candidate.name.removesuffix("-comments.html")
+                        ).stem
+                    )
+                    and Path(original_name).suffix
+                    == Path(
+                        candidate.name.removesuffix("-comments.html")
+                    ).suffix
+                    for original_name in original_names
+                )
+            ]
+            if len(truncated_comments) > 1:
+                raise ValueError(f"Ambiguous comment sidecars for {info_path}")
+            comments = truncated_comments
+        for comment in comments:
+            comment.unlink()
         info_path.unlink()
 
 
