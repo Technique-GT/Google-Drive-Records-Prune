@@ -1,3 +1,4 @@
+import filecmp
 import json
 import shutil
 import zipfile
@@ -16,6 +17,22 @@ def _drive_directory(path: Path) -> Path | None:
     return None
 
 
+def _drive_directories(records: Path, output: Path) -> list[Path]:
+    output = output.resolve()
+    candidates = [records, *records.rglob("*")]
+    return sorted(
+        (
+            candidate
+            for candidate in candidates
+            if candidate.is_dir()
+            and candidate.name.lower() == "drive"
+            and output not in candidate.resolve().parents
+            and candidate.resolve() != output
+        ),
+        key=lambda candidate: candidate.as_posix(),
+    )
+
+
 def _unique_path(path: Path) -> Path:
     if not path.exists():
         return path
@@ -30,9 +47,55 @@ def _unique_path(path: Path) -> Path:
         index += 1
 
 
+def _merge_directory(source: Path, destination: Path) -> None:
+    if destination.exists() and not destination.is_dir():
+        destination = _unique_path(destination)
+    destination.mkdir(parents=True, exist_ok=True)
+
+    for source_entry in sorted(source.iterdir(), key=lambda entry: entry.name):
+        destination_entry = destination / source_entry.name
+        if source_entry.is_dir():
+            _merge_directory(source_entry, destination_entry)
+            continue
+
+        if destination_entry.is_file() and filecmp.cmp(
+            source_entry, destination_entry, shallow=False
+        ):
+            continue
+        if destination_entry.exists():
+            destination_entry = _unique_path(destination_entry)
+        shutil.copy2(source_entry, destination_entry)
+
+
+def _streams_match(source, destination) -> bool:
+    while True:
+        source_chunk = source.read(1024 * 1024)
+        destination_chunk = destination.read(1024 * 1024)
+        if source_chunk != destination_chunk:
+            return False
+        if not source_chunk:
+            return True
+
+
+def _copy_archive_file(
+    contents: zipfile.ZipFile,
+    member: zipfile.ZipInfo,
+    destination: Path,
+) -> None:
+    if destination.is_file() and destination.stat().st_size == member.file_size:
+        with contents.open(member) as source, destination.open("rb") as existing:
+            if _streams_match(source, existing):
+                return
+    if destination.exists():
+        destination = _unique_path(destination)
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with contents.open(member) as source, destination.open("wb") as target:
+        shutil.copyfileobj(source, target)
+
+
 def _copy_drive_archive(archive: Path, destination: Path) -> None:
     with zipfile.ZipFile(archive) as contents:
-        members = []
         for member in contents.infolist():
             archive_path = PurePosixPath(member.filename.replace("\\", "/"))
             if archive_path.is_absolute() or ".." in archive_path.parts:
@@ -52,25 +115,14 @@ def _copy_drive_archive(archive: Path, destination: Path) -> None:
             relative_path = PurePosixPath(*archive_path.parts[drive_index + 1 :])
             if not relative_path.parts:
                 continue
-            members.append((member, relative_path))
 
-        top_level_paths: dict[str, Path] = {}
-        for member, relative_path in members:
-            top_level = relative_path.parts[0]
-            if top_level not in top_level_paths:
-                target = destination / top_level
-                if target.exists():
-                    target = _unique_path(destination / f"{archive.stem}__{top_level}")
-                top_level_paths[top_level] = target
-
-            target_path = top_level_paths[top_level].joinpath(*relative_path.parts[1:])
+            target = destination.joinpath(*relative_path.parts)
             if member.is_dir():
-                target_path.mkdir(parents=True, exist_ok=True)
-                continue
-
-            target_path.parent.mkdir(parents=True, exist_ok=True)
-            with contents.open(member) as source, target_path.open("wb") as target:
-                shutil.copyfileobj(source, target)
+                if target.exists() and not target.is_dir():
+                    target = _unique_path(target)
+                target.mkdir(parents=True, exist_ok=True)
+            else:
+                _copy_archive_file(contents, member, target)
 
 
 def extract_records(records_path: str | Path, output_path: str | Path) -> None:
@@ -81,24 +133,23 @@ def extract_records(records_path: str | Path, output_path: str | Path) -> None:
     output = Path(output_path)
     output.mkdir(parents=True, exist_ok=True)
     drive = output / "drive"
-    drive.mkdir(exist_ok=True)
+    drive.mkdir(parents=True, exist_ok=True)
 
-    source_drive = _drive_directory(records)
-    if source_drive is not None:
-        for source in source_drive.iterdir():
-            target = drive / source.name
-            if target.exists():
-                target = _unique_path(target)
-            if source.is_dir():
-                shutil.copytree(source, target)
-            else:
-                shutil.copy2(source, target)
+    source_drives = _drive_directories(records, output)
+    for source_drive in source_drives:
+        _merge_directory(source_drive, drive)
 
-    archives = sorted(records.glob("*.zip"))
+    archives = sorted(
+        archive
+        for archive in records.rglob("*.zip")
+        if "drive" not in {
+            part.lower() for part in archive.relative_to(records).parts[:-1]
+        }
+    )
     for archive in archives:
         _copy_drive_archive(archive, drive)
 
-    if source_drive is None and not archives:
+    if not source_drives and not archives:
         raise FileNotFoundError(f"No Drive folder or ZIP archives found in {records}")
 
 
