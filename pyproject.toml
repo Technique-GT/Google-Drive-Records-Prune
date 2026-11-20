@@ -1,0 +1,13 @@
+[project]
+name = "google-drive-records-prune"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "pytest>=9.2.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+python_files = ["test.py", "test_*.py", "*_test.py"]

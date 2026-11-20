@@ -221,3 +221,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Zips
+records/*.zip*
+
+# Output
+records_out/*
+
+# Mac Files
+.DS_Store

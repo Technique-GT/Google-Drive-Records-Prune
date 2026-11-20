@@ -1,0 +1,53 @@
+{
+  "starred": false,
+  "editors_can_edit_access": true,
+  "last_modified_by_any_user": "2014-04-17T15:16:55.858Z",
+  "last_modified_by_me": "2014-04-17T15:16:55.858Z",
+  "content_last_modified": "2014-04-17T15:16:55.858Z",
+  "created": "2026-02-22T06:58:55.599Z",
+  "permissions": [
+    {
+      "id": "00501854887101017025",
+      "name": "Kingston Barber (Editor-in-Chief)",
+      "type": "user",
+      "role": "writer",
+      "value": "editor@nique.net",
+      "kind": "drive#permission",
+      "photo_link": "https://lh3.googleusercontent.com/a/ACg8ocLSizalA8SCOwERyJBJ9vZLmANSuCl2u-kvutO3B6NDRdrLhzM=s64",
+      "email_address": "editor@nique.net",
+      "domain": "nique.net",
+      "deleted": false,
+      "pending_owner": false
+    },
+    {
+      "id": "05200356874842396062",
+      "name": "Eesha M",
+      "type": "user",
+      "role": "writer",
+      "value": "eeshamathur@gmail.com",
+      "kind": "drive#permission",
+      "photo_link": "https://lh3.googleusercontent.com/a-/ALV-UjWjJWjnHTkZShwat-3EQkn4vHnZNtskC3B9EBcqJQG18-P1Gknt=s64",
+      "email_address": "eeshamathur@gmail.com",
+      "domain": "gmail.com",
+      "deleted": false,
+      "pending_owner": false
+    },
+    {
+      "id": "00995423027823045862",
+      "name": "Business Editor",
+      "type": "user",
+      "role": "owner",
+      "value": "business@nique.net",
+      "kind": "drive#permission",
+      "photo_link": "https://lh3.googleusercontent.com/a/ACg8ocK9VCkf4PL_W8qizhwa9AymaGVqzP3bT4mdaarxlreAOHt8kg=s64",
+      "email_address": "business@nique.net",
+      "domain": "nique.net",
+      "deleted": false,
+      "pending_owner": false
+    }
+  ],
+  "title": "2013 Spring semester advertising",
+  "drive_id": "1E4IsNkZ3Zr4vaCoqowOT23Pd5iKkrCpKdjyJZBjdILA",
+  "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "download_url": "https://docs.google.com/spreadsheets/d/1E4IsNkZ3Zr4vaCoqowOT23Pd5iKkrCpKdjyJZBjdILA/edit?usp=drive_web"
+}

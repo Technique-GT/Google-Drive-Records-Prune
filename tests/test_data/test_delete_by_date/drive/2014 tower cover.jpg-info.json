@@ -1,0 +1,36 @@
+{
+  "starred": false,
+  "editors_can_edit_access": true,
+  "last_modified_by_any_user": "2014-06-03T14:59:48.710Z",
+  "last_modified_by_me": "2014-06-03T14:59:29.534Z",
+  "content_last_modified": "2014-06-03T14:59:48.710Z",
+  "created": "2015-06-03T14:59:29.731Z",
+  "permissions": [
+    {
+      "id": "anyoneWithLink",
+      "type": "anyone",
+      "role": "reader",
+      "kind": "drive#permission",
+      "with_link": true
+    },
+    {
+      "id": "00995423027823045862",
+      "name": "Business Editor",
+      "type": "user",
+      "role": "owner",
+      "value": "business@nique.net",
+      "kind": "drive#permission",
+      "photo_link": "https://lh3.googleusercontent.com/a/ACg8ocK9VCkf4PL_W8qizhwa9AymaGVqzP3bT4mdaarxlreAOHt8kg=s64",
+      "email_address": "business@nique.net",
+      "domain": "nique.net",
+      "deleted": false,
+      "pending_owner": false
+    }
+  ],
+  "title": "2014 tower cover.jpg",
+  "drive_id": "0ByfbzQL8ZJ3DZU41MGFQa0dKVEE",
+  "mime_type": "image/jpeg",
+  "file_extension": "jpg",
+  "download_url": "https://drive.google.com/file/d/0ByfbzQL8ZJ3DZU41MGFQa0dKVEE/view?usp=drive_web&resourcekey=0-5VQi1cwRXYvx727pK3jrEA",
+  "expected_item_size": 95031
+}
