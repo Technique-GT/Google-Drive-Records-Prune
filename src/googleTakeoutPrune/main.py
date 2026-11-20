@@ -185,9 +185,7 @@ def delete_by_date(
         shutil.copytree(source_drive, drive)
 
     cutoff = datetime.now(UTC) - max_age
-    info_paths = sorted(
-        set(drive.rglob("*-info.json")) | set(drive.rglob("*-i.json"))
-    )
+    info_paths = sorted(set(drive.rglob("*-info.json")) | set(drive.rglob("*-i.json")))
     for info_path in info_paths:
         metadata = json.loads(info_path.read_text(encoding="utf-8"))
         created = metadata.get("created")
@@ -203,9 +201,7 @@ def delete_by_date(
         title = metadata.get("title")
         if not isinstance(title, str) or Path(title).name != title:
             suffix = (
-                "-info.json"
-                if info_path.name.endswith("-info.json")
-                else "-i.json"
+                "-info.json" if info_path.name.endswith("-info.json") else "-i.json"
             )
             title = info_path.name.removesuffix(suffix)
 
@@ -214,10 +210,7 @@ def delete_by_date(
             for candidate in info_path.parent.iterdir()
             if candidate.is_file()
             and candidate != info_path
-            and (
-                candidate.name == title
-                or candidate.name.startswith(f"{title}.")
-            )
+            and (candidate.name == title or candidate.name.startswith(f"{title}."))
         ]
         for original in originals:
             original.unlink()
@@ -238,14 +231,10 @@ def delete_by_date(
                 and candidate.name.endswith("-comments.html")
                 and any(
                     Path(original_name).stem.startswith(
-                        Path(
-                            candidate.name.removesuffix("-comments.html")
-                        ).stem
+                        Path(candidate.name.removesuffix("-comments.html")).stem
                     )
                     and Path(original_name).suffix
-                    == Path(
-                        candidate.name.removesuffix("-comments.html")
-                    ).suffix
+                    == Path(candidate.name.removesuffix("-comments.html")).suffix
                     for original_name in original_names
                 )
             ]
@@ -258,17 +247,17 @@ def delete_by_date(
 
 
 def main() -> None:
-    shutil.rmtree("records_out", ignore_errors=True)
-    Path("records_out/unpruned").mkdir(parents=True, exist_ok=True)
-    Path("records_out/pruned").mkdir(parents=True, exist_ok=True)
+    # shutil.rmtree("records_out", ignore_errors=True)
+    # Path("records_out/unpruned").mkdir(parents=True, exist_ok=True)
+    # Path("records_out/pruned").mkdir(parents=True, exist_ok=True)
 
-    extract_records("records", "records_out/unpruned")
+    # extract_records("records", "records_out/unpruned")
 
-    delete_by_date(
-        "records_out/unpruned",
-        "records_out/pruned",
-        timedelta(days=365 * 2),
-    )
+    # delete_by_date(
+    #     "records_out/unpruned",
+    #     "records_out/pruned",
+    #     timedelta(days=365 * 2),
+    # )
 
     shutil.make_archive(
         "records_out/pruned",
